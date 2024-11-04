@@ -17,27 +17,29 @@ module tb ();
   reg clk;
   reg rst_n;
   reg ena;
-  reg [7:0] ui_in;
+  wire [7:0] ui_in;
   reg [7:0] uio_in;
   wire [7:0] uo_out;
   wire [7:0] uio_out;
   wire [7:0] uio_oe;
-`ifdef GL_TEST
-  wire VPWR = 1'b1;
-  wire VGND = 1'b0;
-`endif
+   wire	     gpio0;
+   wire	     gpio1;
+   wire	     gpio2;
+   wire	     gpio3;
+   wire	     gpio4;
+   
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_underserved user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
-      .VPWR(VPWR),
-      .VGND(VGND),
+      .VPWR(1'b1),
+      .VGND(1'b0),
 `endif
 
       .ui_in  (ui_in),    // Dedicated inputs
-      .uo_out (uo_out),   // Dedicated outputs
+      .uo_out ({uo_out[7:5], gpio4, gpio3, gpio2, gpio1, gpio0}),   // Dedicated outputs
       .uio_in (uio_in),   // IOs: Input path
       .uio_out(uio_out),  // IOs: Output path
       .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
@@ -45,5 +47,13 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+   spiflash flash
+     (.csb (uo_out[6]),
+      .clk (uo_out[5]),
+      .io0 (uo_out[7]),
+      .io1 (ui_in[7]),
+      .io2 (),
+      .io3 ());
 
 endmodule

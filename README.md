@@ -1,6 +1,14 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
-# Tiny Tapeout Verilog Project Template
+# Underserved
+
+![Block Diagram](docs/underserved.png)
+
+Underserved is a tiny RISC-V SoC that fits into two TinyTapeout tiles. It consists of the award-winning [SERV](https://github.com/olofk/serv), the world's smallest RISC-V CPU, a GPIO controller for setting an output pin and an XIP controller for running programs from an SPI Flash.
+
+Wow! All this in just two TinyTapeout slots. Yes! ...but... there are some restrictions.
+
+While we can read data and instructions from SPI Flash, there is no RAM for storing any data. SERV is small, but memories cost a lot of chip area. However, we can still store a few words of data in the GPR registers. Weeeell.. actually... implementing all the 31 32-bit words needed for RV32I, or even the 15 needed for RV32E would take up a considerable amount of space. So, right now Underserved only implements 4 GPR registers. Other than that though, it's a fully capable RISC-V SoC and I'm sure you can think up a lot of fun things to do with it.
 
 - [Read the documentation for project](docs/info.md)
 
@@ -9,33 +17,3 @@
 Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
 
 To learn more and get started, visit https://tinytapeout.com.
-
-## Set up your Verilog project
-
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
-
-The GitHub action will automatically build the ASIC files using [OpenLane](https://www.zerotoasiccourse.com/terminology/openlane/).
-
-## Enable GitHub actions to build the results page
-
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
-
-## Resources
-
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
-
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)

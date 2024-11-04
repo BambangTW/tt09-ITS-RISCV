@@ -1,0 +1,48 @@
+CAPI=2:
+
+name : ::underserved:0
+
+filesets:
+  rtl:
+    files:
+      - src/spimemio.v
+      - src/subservient_gpio.v
+      - src/rf_shift_reg.v
+      - src/underserved.v
+    file_type:
+      verilogSource
+    depend: [serv]
+
+  tb:
+    files:
+      - test/spiflash.v
+      - test/tb.v
+      - test/firmware.hex : {file_type: user, copyto: firmware.hex}
+      - test/test.py : {file_type: user, copyto: .}
+    file_type : verilogSource
+
+targets:
+  default:
+    filesets: [rtl, tb]
+    flow: sim
+    flow_options:
+      tool: icarus
+      cocotb_module: test
+    toplevel : tb
+
+  sim:
+    description: Underserved testbench. Runs a program from simulated SPI Flash and outputs to gpio0 as a UART.
+    filesets: [rtl, tb]
+    flow: sim
+    flow_options:
+      tool: icarus
+      cocotb_module: test
+    toplevel : tb
+
+  lint:
+    description: Static code checks
+    filesets: [rtl]
+    flow: lint
+    flow_options:
+      tool: verilator
+    toplevel : tt_um_underserved
